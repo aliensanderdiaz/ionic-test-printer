@@ -1,0 +1,101 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="start" name="refresh-circle"></ion-icon>
+        Actualizar
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Almacenes Universal SAS
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list>
+    <ion-item *ngFor="let item of bluetoothList" (click)="selectPrinter(item.id)">
+      {{item.name}} -- {{item.id}}
+    </ion-item>
+  </ion-list>
+  <div>
+    Selected Printer: {{selectedPrinter}}
+  </div>
+  <ion-button expand="full" color="danger" *ngIf='selectedPrinter' (click)="printStuff()">
+    Imprimir Hola Toditos
+  </ion-button>
+
+  <ion-button expand="full" color="danger" (click)="imprimirbase64()">
+    IMPRIMIR BASE64
+  </ion-button>
+
+  <ion-button expand="full" color="danger" (click)="imprimirArchivo()">
+    imprimirArchivo
+  </ion-button>
+
+  <ion-button expand="full" color="danger" (click)="imprimirArchivoOnline()">
+    imprimirArchivoOnline
+  </ion-button>
+
+  <ion-button expand="full" color="danger" (click)="imprimirArchivoServidor()">
+    imprimirArchivoServidor
+  </ion-button>
+
+  <ion-button expand="full" color="danger" (click)="verificar()">
+    verificar
+  </ion-button>
+
+  
+  
+  <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        <ion-button size="large" expand="block" (click)="imprimir()">IMPRIMIR</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button size="large" expand="block" (click)="imprimir('drive')">IMPRIMIR Drive</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button size="large" expand="block" (click)="imprimir('funcion')">IMPRIMIR funcion</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let mensaje of mensajes">
+      <ion-col>{{ mensaje }}</ion-col>
+    </ion-row>
+
+    <ion-row class="border-row" *ngFor="let factura of facturas">
+      <ion-col size="1">
+        <ion-button color="dark" size="large" expand="block">{{ factura.vendedor.primerNombre[0] }}</ion-button>
+      </ion-col>
+      <ion-col size="3">
+        {{ factura.cliente.primerNombre }} {{ factura.cliente.apellidos }}
+      </ion-col>
+      <ion-col size="4">
+        <ion-row *ngFor="let producto of factura.productos">
+          <ion-col size="2">{{ producto.cantidad }}</ion-col>
+          <ion-col size="6">{{ producto.producto.nombre }}</ion-col>
+          <ion-col size="4" class="ion-text-end">
+            {{ producto.valor | currency:undefined:'symbol-narrow':'1.2-2':'es-Co' }}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="8"></ion-col>
+          <ion-col size="4" class="ion-text-end">
+            <h4>
+              {{ factura.total | currency:undefined:'symbol-narrow':'1.2-2':'es-Co' }}
+            </h4>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button size="large" expand="block" (click)="imprimir(factura.comprobante)">IMPRIMIR</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
